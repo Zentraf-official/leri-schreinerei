@@ -1,4 +1,17 @@
 /* ═══════════════════════════════════════════════════════════════════════
+   TIPOGRAFÍA — Inter, servida desde esta misma web (no desde un CDN ajeno):
+   así carga rápido, no depende de nadie y no avisa a terceros de quién
+   visita la página. Licencia SIL Open Font, se puede usar en trabajos de
+   cliente (el texto de la licencia está en assets/fuentes/LICENCIA-Inter.txt).
+   ═══════════════════════════════════════════════════════════════════════ */
+@font-face{font-family:'Inter'; font-style:normal; font-weight:400; font-display:swap;
+  src:url('assets/fuentes/inter-400.woff2') format('woff2')}
+@font-face{font-family:'Inter'; font-style:normal; font-weight:600; font-display:swap;
+  src:url('assets/fuentes/inter-600.woff2') format('woff2')}
+@font-face{font-family:'Inter'; font-style:normal; font-weight:800; font-display:swap;
+  src:url('assets/fuentes/inter-800.woff2') format('woff2')}
+
+/* ═══════════════════════════════════════════════════════════════════════
    LERI SCHREINEREI AG — marca del cliente, no la nuestra
    Verde #007830 · Carbón #505050 (tomados píxel a píxel de su logo)
    Cinematográfico: tipografía grande, bordes rectos, contraste fuerte
