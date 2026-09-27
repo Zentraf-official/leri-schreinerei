@@ -382,11 +382,34 @@
     });
     dividirTitulares(true);
 
-    // segunda pasada: ya con imágenes y vídeo cargados, las líneas se recalculan
+    // segunda pasada: cuando la tipografía propia ya está puesta. Es la causa real
+    // del fallo del 27.09: al medir con la letra de reserva salían más líneas de
+    // las que hay, y al entrar Inter el texto se recolocaba dentro de las máscaras.
+    if (doc.fonts && doc.fonts.ready && doc.fonts.ready.then) {
+      doc.fonts.ready.then(function () { dividirTitulares(false); alScroll(); });
+    }
+
+    // tercera pasada: ya con imágenes y vídeo cargados
     addEventListener('load', function () { dividirTitulares(false); alScroll(); });
 
+    // y si el navegador cambia el ancho del titular por su cuenta (letra que llega
+    // tarde, barra de desplazamiento que aparece), se vuelve a dividir
+    if ('ResizeObserver' in window) {
+      var anchoAnterior = new WeakMap();
+      var obs = new ResizeObserver(function (entradas) {
+        entradas.forEach(function (e) {
+          var w = Math.round(e.contentRect.width);
+          if (anchoAnterior.get(e.target) === w) return;
+          anchoAnterior.set(e.target, w);
+          clearTimeout(tempoAncho);
+          tempoAncho = setTimeout(function () { dividirTitulares(false); }, 120);
+        });
+      });
+      titulares.forEach(function (t) { obs.observe(t.el); });
+    }
+
     // y si se cambia el tamaño de la ventana o se gira el móvil
-    var tempo = null;
+    var tempo = null, tempoAncho = null;
     addEventListener('resize', function () {
       clearTimeout(tempo);
       tempo = setTimeout(function () { dividirTitulares(false); alScroll(); }, 260);
