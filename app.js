@@ -57,12 +57,37 @@
         if (i < l.items.length - 1) dentro.appendChild(doc.createTextNode(' '));
       });
     });
+
+    // Fuera los espacios sueltos que quedan colgando: si no, al leer el texto
+    // (Google, lectores de pantalla) las palabras salían pegadas («wirüber»).
+    Array.prototype.slice.call(el.childNodes).forEach(function (n) {
+      if (n.nodeType === 3 && !n.textContent.trim()) el.removeChild(n);
+    });
     return $$('.linea-mask', el);
   }
 
-  var lineasPorTitular = [];
-  if (!quieto) {
-    $$('[data-lineas]').forEach(function (el) { lineasPorTitular.push({ el: el, lineas: partirEnLineas(el) }); });
+  /* Los titulares se dividen DESPUÉS de que el navegador sepa medir de verdad.
+     (Error real del 27.09: se dividían al leer el archivo, antes de que el CSS
+     hubiera colocado la página, y salían partidos en tres líneas donde iban dos.
+     Ahora: al terminar el documento, otra vez al cargar del todo, y otra vez si
+     se cambia el tamaño de la ventana.) */
+  var titulares = $$('[data-lineas]').map(function (el) { return { el: el, lineas: [] }; });
+
+  function dividirTitulares(conAnimacion) {
+    if (quieto) return;
+    titulares.forEach(function (t) {
+      var yaVisto = t.el.dataset.revelado === '1';
+      if (t.el.dataset.htmlOriginal) t.el.innerHTML = t.el.dataset.htmlOriginal;
+      else t.el.dataset.htmlOriginal = t.el.innerHTML;
+      t.lineas = partirEnLineas(t.el);
+      var enPantalla = t.el.getBoundingClientRect().top < window.innerHeight * 0.92;
+      t.lineas.forEach(function (l) {
+        if (yaVisto) { l.style.transitionDuration = '0s'; l.classList.add('dentro'); return; }
+        if (!enPantalla && !t.el.closest('.hero')) { vigilar(l); return; }
+        if (!conAnimacion) { l.style.transitionDuration = '0s'; l.classList.add('dentro'); }
+        // si es el hero con animación, lo revela animarHero()
+      });
+    });
   }
 
   /* aparición por clase (la transición la hace el CSS) */
@@ -72,6 +97,8 @@
       entradas.forEach(function (e) {
         if (!e.isIntersecting) return;
         e.target.classList.add('dentro');
+        var titular = e.target.closest ? e.target.closest('[data-lineas]') : null;
+        if (titular) titular.dataset.revelado = '1';
         observador.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -12% 0px', threshold: 0.01 });
@@ -86,13 +113,16 @@
   /* ══ 2 · ARRANQUE: CARGA + HERO ══════════════════════════════════════ */
   function mostrarTodo() {
     $$('[data-anim]').forEach(function (el) { el.classList.add('dentro'); });
-    lineasPorTitular.forEach(function (t) { t.lineas.forEach(function (l) { l.classList.add('dentro'); }); });
+    titulares.forEach(function (t) {
+      t.el.dataset.revelado = '1';
+      t.lineas.forEach(function (l) { l.style.transitionDuration = '0s'; l.classList.add('dentro'); });
+    });
   }
 
   function animarHero() {
     var lineas = [];
-    lineasPorTitular.forEach(function (t) {
-      if (t.el.closest('.hero')) lineas = lineas.concat(t.lineas);
+    titulares.forEach(function (t) {
+      if (t.el.closest('.hero')) { t.el.dataset.revelado = '1'; lineas = lineas.concat(t.lineas); }
     });
     lineas.forEach(function (l, i) {
       l.style.transitionDuration = '1.15s';
@@ -130,6 +160,12 @@
       animarHero();
       return;
     }
+
+    // Si ya vio la animación de entrada en esta visita, no se la repetimos:
+    // solo la primera página del recorrido se abre como el cine.
+    var yaVisto = false;
+    try { yaVisto = sessionStorage.getItem('leri-visto') === '1'; } catch (e) {}
+    if (yaVisto && !quieto) { caja.remove(); animarHero(); return; }
 
     var contador = { v: 0 }, t0 = performance.now(), DUR = 950;
     function paso(t) {
@@ -344,12 +380,16 @@
       var hermanos = el.parentElement ? Array.prototype.slice.call(el.parentElement.children).indexOf(el) : 0;
       vigilar(el, Math.min(hermanos, 3) * 90);
     });
-    lineasPorTitular.forEach(function (t) {
-      if (t.el.closest('.hero')) return;
-      t.lineas.forEach(function (l, i) {
-        l.style.transitionDelay = (i * 110) + 'ms';
-        vigilar(l, 0);
-      });
+    dividirTitulares(true);
+
+    // segunda pasada: ya con imágenes y vídeo cargados, las líneas se recalculan
+    addEventListener('load', function () { dividirTitulares(false); alScroll(); });
+
+    // y si se cambia el tamaño de la ventana o se gira el móvil
+    var tempo = null;
+    addEventListener('resize', function () {
+      clearTimeout(tempo);
+      tempo = setTimeout(function () { dividirTitulares(false); alScroll(); }, 260);
     });
 
     alScroll();

@@ -41,12 +41,12 @@ html.js .linea-mask > span{display:block; transform:translateY(110%)}
   display:flex; align-items:center; justify-content:center; overflow:hidden}
 .carga__capa{position:absolute; inset:0; background:var(--verde); transform:translateY(101%)}
 .carga__caja{position:relative; z-index:2; text-align:center; padding:0 30px}
-.carga__logo{height:70px; margin:0 auto 28px; width:auto}
+.carga__logo{height:84px; margin:0 auto 30px; width:auto}
 .carga__frase{color:#fff; font-size:clamp(1.05rem,3vw,2rem); font-weight:800; letter-spacing:-.03em;
   text-transform:uppercase; line-height:1}
-.carga__linea{width:min(420px,74vw); height:2px; background:rgba(255,255,255,.18); margin:30px auto 12px; overflow:hidden}
+.carga__linea{width:min(380px,70vw); height:2px; background:rgba(255,255,255,.22); margin:32px auto 12px; overflow:hidden}
 .carga__linea i{display:block; height:100%; width:0%; background:var(--verde-claro)}
-.carga__num{color:rgba(255,255,255,.65); font-size:.72rem; letter-spacing:.3em}
+.carga__num{color:rgba(255,255,255,.82); font-size:.72rem; letter-spacing:.3em}
 
 /* velo de transición entre páginas */
 .velo{position:fixed; inset:0; z-index:190; pointer-events:none; display:flex}
@@ -55,7 +55,7 @@ html.js .linea-mask > span{display:block; transform:translateY(110%)}
 
 /* ══ barra de progreso y aviso ══════════════════════════════════════ */
 .progreso{position:fixed; top:0; left:0; height:3px; width:0; background:var(--verde); z-index:80}
-.aviso{position:fixed; left:0; bottom:0; z-index:70; background:var(--verde); color:#fff;
+.aviso{position:fixed; right:0; bottom:0; z-index:70; background:var(--verde); color:#fff;
   font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; padding:7px 14px; font-weight:700}
 
 /* ══ BARRA DE NAVEGACIÓN ════════════════════════════════════════════ */
@@ -83,7 +83,7 @@ html.js .linea-mask > span{display:block; transform:translateY(110%)}
 .hero h1 em{font-style:normal; color:var(--verde-claro)}
 .hero__sub{max-width:52ch; font-size:clamp(1rem,1.5vw,1.24rem); color:rgba(255,255,255,.86)}
 .hero__acciones{display:flex; gap:14px; flex-wrap:wrap; margin-top:32px}
-.hero__pie{position:absolute; left:40px; right:40px; bottom:18px; z-index:3; display:flex;
+.hero__pie{position:absolute; left:40px; right:40px; bottom:54px; z-index:3; display:flex;
   justify-content:space-between; color:rgba(255,255,255,.6); font-size:.66rem; letter-spacing:.22em; text-transform:uppercase}
 
 /* ══ botones ════════════════════════════════════════════════════════ */
@@ -133,7 +133,9 @@ html.js .linea-mask > span{display:block; transform:translateY(110%)}
 .cine{position:relative; min-height:100svh; display:flex; align-items:center; overflow:hidden; background:#000}
 .cine__media{position:absolute; inset:0}
 .cine video{width:100%; height:100%; object-fit:cover}
-.cine__velo{position:absolute; inset:0; background:radial-gradient(120% 80% at 50% 50%,rgba(0,0,0,.2),rgba(0,0,0,.84))}
+.cine__velo{position:absolute; inset:0; background:
+  linear-gradient(180deg,rgba(10,10,10,.62) 0%,rgba(10,10,10,.42) 38%,rgba(10,10,10,.72) 100%),
+  radial-gradient(110% 70% at 50% 50%,rgba(10,10,10,.15),rgba(10,10,10,.55))}
 .cine__texto{position:relative; z-index:2; max-width:var(--wrap); margin:0 auto; padding:0 40px; color:#fff; text-align:center}
 .cine h2{font-size:clamp(2.2rem,7vw,6rem); margin-bottom:22px}
 .cine p{max-width:60ch; margin:0 auto; color:rgba(255,255,255,.85); font-size:1.06rem}
@@ -329,3 +331,21 @@ html.viene-de-transicion .velo span{transform:translateY(0)}
 .legal-texto p{margin:0; color:var(--carbon); font-size:.98rem; line-height:1.7}
 .h2--pequeno{font-size:clamp(1.6rem,3.4vw,2.6rem)}
 @media (max-width:820px){.legal-texto{grid-template-columns:1fr; margin-bottom:44px}}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ANEXO 3 — enlaces cómodos para el dedo (móvil)
+   El revisor avisaba: enlaces del pie y notas legales de 20 px de alto.
+   Con 26 px y aire arriba/abajo se pulsan sin frustración.
+   ═══════════════════════════════════════════════════════════════════════ */
+.pie__lista a,
+.pie__credito a,
+.legal a,
+.legal-texto a,
+.form__nota a,
+.pie__lista p{display:inline-flex; align-items:center; min-height:26px; padding:3px 0}
+.pie__lista a{padding:6px 0; min-height:30px}
+.pie summary{min-height:38px; display:flex; align-items:center}
+.form__nota a{text-decoration:underline; text-underline-offset:3px}
+@media (max-width:900px){
+  .contacto__datos a, .contacto__datos address{padding:16px 0; min-height:44px}
+}
