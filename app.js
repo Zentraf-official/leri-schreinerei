@@ -57,6 +57,16 @@
     var disponible = el.clientWidth - parseFloat(estilo.paddingLeft || 0) - parseFloat(estilo.paddingRight || 0);
     if (!disponible || disponible < 40) disponible = el.clientWidth || 600;
 
+    /* diagnóstico temporal: abrir la web con ?depurar=1 y leer data-diag */
+    if (location.search.indexOf('depurar') > -1) {
+      var trozos = unidades.map(function (x) {
+        return x.tagName === 'BR' ? 'SALTO' : (x.textContent.slice(0, 14) + '=' + Math.round(x.getBoundingClientRect().width));
+      }).join(' | ');
+      doc.documentElement.dataset.diag = (doc.documentElement.dataset.diag || '') +
+        '\n<' + el.tagName + ' clase="' + el.className + '"> ancho=' + Math.round(disponible) +
+        ' espacio=' + Math.round(espacio) + ' fuente=' + estilo.fontSize + '\n   ' + trozos;
+    }
+
     var lineas = [], actual = [], ancho = 0;
     unidades.forEach(function (u) {
       if (u.tagName === 'BR') {
