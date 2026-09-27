@@ -37,10 +37,14 @@
       }
     });
 
+    /* La línea de cada palabra se mide con getBoundingClientRect, NO con offsetTop.
+       (Error real del 27.09: en un elemento en línea, Chrome devolvía el MISMO
+       offsetTop para todas las palabras —todas «-21»—, así que el titular salía
+       partido en cualquier sitio. El rectángulo sí dice la verdad.) */
     var lineas = [], linea = null;
     unidades.forEach(function (u) {
       if (u.tagName === 'BR') { linea = null; u.parentNode.removeChild(u); return; }
-      var t = u.offsetTop;
+      var t = Math.round(u.getBoundingClientRect().top);
       if (!linea || Math.abs(t - linea.top) > 6) { linea = { top: t, items: [] }; lineas.push(linea); }
       linea.items.push(u);
     });
