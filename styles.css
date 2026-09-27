@@ -52,6 +52,10 @@ html.js .linea-mask > span{display:block; transform:translateY(110%)}
 /* ══ CARGA CINEMATOGRÁFICA ══════════════════════════════════════════ */
 .carga{position:fixed; inset:0; z-index:200; background:var(--carbon-osc);
   display:flex; align-items:center; justify-content:center; overflow:hidden}
+/* La regla de arriba (display:flex) GANA al atributo hidden del HTML: sin esto,
+   sin JavaScript el cargador se quedaba encima de la web entera, opaco y sin salida.
+   (Error R23, encontrado por el subagente al abrir la web con JavaScript desactivado.) */
+.carga[hidden]{display:none}
 .carga__fondo{position:absolute; inset:0; overflow:hidden; opacity:0; animation:cargaAparece 1.6s .1s var(--ease) forwards}
 .carga__fondo img{width:100%; height:100%; object-fit:cover; filter:grayscale(.6) brightness(.38); animation:cargaZoom 4.5s var(--ease) forwards}
 @keyframes cargaAparece{to{opacity:.34}}

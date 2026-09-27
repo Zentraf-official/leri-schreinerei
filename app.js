@@ -100,7 +100,11 @@
     });
     if (actual.length) lineas.push({ items: actual });
 
-    lineas.forEach(function (l) {
+    lineas.forEach(function (l, indice) {
+      // Un espacio de verdad entre líneas: las máscaras son bloques y al leer el
+      // texto (Google, lectores de pantalla, el revisor) las palabras salían pegadas
+      // («maldunkel»). Visualmente no cambia nada. (Error R24.)
+      if (indice > 0) el.appendChild(doc.createTextNode(' '));
       var mascara = doc.createElement('span');
       mascara.className = 'linea-mask';
       var dentro = doc.createElement('span');
