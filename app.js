@@ -100,10 +100,17 @@
     });
     if (actual.length) lineas.push({ items: actual });
 
+    // Fuera los espacios sueltos que dejó el HTML original. OJO con el orden: hay que
+    // quitarlos ANTES de poner los míos, o la limpieza se lleva también los buenos.
+    // (Error R24: el revisor leía «maldunkel» porque entre dos líneas no había espacio.)
+    Array.prototype.slice.call(el.childNodes).forEach(function (n) {
+      if (n.nodeType === 3 && !n.textContent.trim()) el.removeChild(n);
+    });
+
     lineas.forEach(function (l, indice) {
-      // Un espacio de verdad entre líneas: las máscaras son bloques y al leer el
-      // texto (Google, lectores de pantalla, el revisor) las palabras salían pegadas
-      // («maldunkel»). Visualmente no cambia nada. (Error R24.)
+      // Un espacio de verdad entre líneas: las máscaras son bloques y, al leer el
+      // texto (Google, lectores de pantalla, el revisor), las palabras salían pegadas.
+      // Visualmente no cambia nada, porque entre dos bloques el espacio no se ve.
       if (indice > 0) el.appendChild(doc.createTextNode(' '));
       var mascara = doc.createElement('span');
       mascara.className = 'linea-mask';
@@ -117,11 +124,6 @@
       });
     });
 
-    // Fuera los espacios sueltos que quedan colgando: si no, al leer el texto
-    // (Google, lectores de pantalla) las palabras salían pegadas («wirüber»).
-    Array.prototype.slice.call(el.childNodes).forEach(function (n) {
-      if (n.nodeType === 3 && !n.textContent.trim()) el.removeChild(n);
-    });
     return $$('.linea-mask', el);
   }
 
