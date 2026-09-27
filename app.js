@@ -37,24 +37,43 @@
       }
     });
 
-    /* La línea de cada palabra se mide con getBoundingClientRect, NO con offsetTop.
-       (Error real del 27.09: en un elemento en línea, Chrome devolvía el MISMO
-       offsetTop para todas las palabras —todas «-21»—, así que el titular salía
-       partido en cualquier sitio. El rectángulo sí dice la verdad.) */
-    var lineas = [], linea = null;
+    /* Las líneas se calculan con los ANCHOS reales de cada palabra, igual que hace
+       el navegador al repartir el texto. Antes se miraba en qué línea había caído
+       cada palabra (con offsetTop primero, con el rectángulo después) y las dos
+       veces salió mal: el titular se partía donde no tocaba («QUALITÄT, / DIE /
+       PERFEKT PASST.»). Con anchos no hay nada que adivinar. */
+    var espacio = (function () {
+      var s = doc.createElement('span');
+      s.textContent = 'a a';
+      el.appendChild(s);
+      var con = s.getBoundingClientRect().width;
+      s.textContent = 'aa';
+      var sin = s.getBoundingClientRect().width;
+      el.removeChild(s);
+      return Math.max(0, con - sin);
+    })();
+
+    var estilo = getComputedStyle(el);
+    var disponible = el.clientWidth - parseFloat(estilo.paddingLeft || 0) - parseFloat(estilo.paddingRight || 0);
+    if (!disponible || disponible < 40) disponible = el.clientWidth || 600;
+
+    var lineas = [], actual = [], ancho = 0;
     unidades.forEach(function (u) {
-      if (u.tagName === 'BR') { linea = null; u.parentNode.removeChild(u); return; }
-      var t = Math.round(u.getBoundingClientRect().top);
-      if (window.__leriDepurar) {
-        window.__leriDepurar.push({
-          palabra: u.textContent, top: t, ancho: el.clientWidth,
-          fuente: getComputedStyle(el).fontSize, caja: el.className,
-          rango: doc.createRange ? doc.createRange().selectNodeContents(el).getClientRects().length : -1,
-        });
+      if (u.tagName === 'BR') {
+        if (actual.length) { lineas.push({ items: actual }); actual = []; ancho = 0; }
+        u.parentNode.removeChild(u);
+        return;
       }
-      if (!linea || Math.abs(t - linea.top) > 6) { linea = { top: t, items: [] }; lineas.push(linea); }
-      linea.items.push(u);
+      var w = u.getBoundingClientRect().width || 0;
+      var suma = actual.length ? ancho + espacio + w : w;
+      if (actual.length && suma > disponible + 1) {
+        lineas.push({ items: actual });
+        actual = [u]; ancho = w;
+      } else {
+        actual.push(u); ancho = suma;
+      }
     });
+    if (actual.length) lineas.push({ items: actual });
 
     lineas.forEach(function (l) {
       var mascara = doc.createElement('span');
