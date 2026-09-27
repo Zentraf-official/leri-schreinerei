@@ -366,3 +366,11 @@ html.viene-de-transicion .velo span{transform:translateY(0)}
 @media (max-width:900px){
   .contacto__datos a, .contacto__datos address{padding:16px 0; min-height:44px}
 }
+/* enlaces dentro de notas y párrafos: que el dedo los alcance en el móvil */
+.equipo__nota a,
+.cine__nota a,
+.contacto__nota a,
+.quien p a,
+.paraquien p a{display:inline-flex; align-items:center; min-height:26px; padding:2px 0;
+  text-decoration:underline; text-underline-offset:3px}
+.equipo__nota a{color:#fff}
