@@ -42,25 +42,50 @@
        cada palabra (con offsetTop primero, con el rectángulo después) y las dos
        veces salió mal: el titular se partía donde no tocaba («QUALITÄT, / DIE /
        PERFEKT PASST.»). Con anchos no hay nada que adivinar. */
+    var estilo = getComputedStyle(el);
+
+    /* El ancho de un espacio se mide en una caja aparte, fuera de la página y sin
+       poder partirse. (Error real del 27.09: se medía dentro del propio titular y,
+       si el espacio caía justo al final de una línea, el navegador lo partía en dos
+       trozos y la medida salía de 996 px en vez de 40: de ahí que los titulares se
+       rompieran en cualquier sitio.) */
     var espacio = (function () {
-      var s = doc.createElement('span');
-      s.textContent = 'a a';
-      el.appendChild(s);
-      var con = s.getBoundingClientRect().width;
-      s.textContent = 'aa';
-      var sin = s.getBoundingClientRect().width;
-      el.removeChild(s);
-      return Math.max(0, con - sin);
+      var caja = doc.createElement('span');
+      caja.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:pre';
+      caja.style.fontFamily = estilo.fontFamily;
+      caja.style.fontSize = estilo.fontSize;
+      caja.style.fontWeight = estilo.fontWeight;
+      caja.style.fontStyle = estilo.fontStyle;
+      caja.style.letterSpacing = estilo.letterSpacing;
+      caja.style.wordSpacing = estilo.wordSpacing;
+      caja.style.textTransform = estilo.textTransform;
+      caja.textContent = 'a a';
+      doc.body.appendChild(caja);
+      var con = caja.getBoundingClientRect().width;
+      caja.textContent = 'aa';
+      var sin = caja.getBoundingClientRect().width;
+      doc.body.removeChild(caja);
+      var w = con - sin;
+      return (isFinite(w) && w > 0) ? w : parseFloat(estilo.fontSize) * 0.26;
     })();
 
-    var estilo = getComputedStyle(el);
+    /* ancho de una unidad: si algo se ha partido en varias líneas, se suman los
+       trozos (así se sabe cuánto ocuparía entero, que es lo que hay que decidir) */
+    function anchoUnidad(u) {
+      var trozos = u.getClientRects ? u.getClientRects() : null;
+      if (!trozos || !trozos.length) return u.getBoundingClientRect().width || 0;
+      if (trozos.length === 1) return trozos[0].width;
+      var suma = 0;
+      for (var i = 0; i < trozos.length; i++) suma += trozos[i].width;
+      return suma;
+    }
     var disponible = el.clientWidth - parseFloat(estilo.paddingLeft || 0) - parseFloat(estilo.paddingRight || 0);
     if (!disponible || disponible < 40) disponible = el.clientWidth || 600;
 
     /* diagnóstico temporal: abrir la web con ?depurar=1 y leer data-diag */
     if (location.search.indexOf('depurar') > -1) {
       var trozos = unidades.map(function (x) {
-        return x.tagName === 'BR' ? 'SALTO' : (x.textContent.slice(0, 14) + '=' + Math.round(x.getBoundingClientRect().width));
+        return x.tagName === 'BR' ? 'SALTO' : (x.textContent.slice(0, 14) + '=' + Math.round(anchoUnidad(x)));
       }).join(' | ');
       doc.documentElement.dataset.diag = (doc.documentElement.dataset.diag || '') +
         '\n<' + el.tagName + ' clase="' + el.className + '"> ancho=' + Math.round(disponible) +
@@ -74,7 +99,7 @@
         u.parentNode.removeChild(u);
         return;
       }
-      var w = u.getBoundingClientRect().width || 0;
+      var w = anchoUnidad(u);
       var suma = actual.length ? ancho + espacio + w : w;
       if (actual.length && suma > disponible + 1) {
         lineas.push({ items: actual });
