@@ -45,6 +45,13 @@
     unidades.forEach(function (u) {
       if (u.tagName === 'BR') { linea = null; u.parentNode.removeChild(u); return; }
       var t = Math.round(u.getBoundingClientRect().top);
+      if (window.__leriDepurar) {
+        window.__leriDepurar.push({
+          palabra: u.textContent, top: t, ancho: el.clientWidth,
+          fuente: getComputedStyle(el).fontSize, caja: el.className,
+          rango: doc.createRange ? doc.createRange().selectNodeContents(el).getClientRects().length : -1,
+        });
+      }
       if (!linea || Math.abs(t - linea.top) > 6) { linea = { top: t, items: [] }; lineas.push(linea); }
       linea.items.push(u);
     });
