@@ -1,0 +1,7 @@
+# Material de trabajo: no se publica. Las fotos y los vídeos de origen viven en la
+# carpeta del cliente (leri-schreinerei/), no en el repositorio de la web.
+fotos-originales/
+video/
+*.psd
+*.mov
+.DS_Store

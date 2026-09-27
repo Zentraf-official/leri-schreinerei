@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontakt und Anfahrt | LERI Schreinerei AG, Kanzleistrasse 221, 8004 Zürich</title>
+<meta name="description" content="Kontakt zur LERI Schreinerei AG: Kanzleistrasse 221, 8004 Zürich, Telefon 044 242 72 66, info@leri-schreinerei.ch. Anfrageformular, Impressum und Datenschutz.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LERI Schreinerei AG">
+<meta property="og:title" content="Kontakt — LERI Schreinerei AG Zürich">
+<meta property="og:description" content="Kanzleistrasse 221, 8004 Zürich · Telefon 044 242 72 66 · Anfrage direkt über das Formular.">
+<meta property="og:image" content="https://zentraf-official.github.io/leri-schreinerei/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="theme-color" content="#007B35">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="stylesheet" href="styles.css">
+<script>
+  /* Alles, was animiert wird, startet nur, wenn JavaScript läuft: falls etwas schiefgeht,
+     zeigt die Seite nach 3 Sekunden alles ohne Animation. Niemand sieht eine leere Seite. */
+  document.documentElement.classList.add('js');
+  try {
+    if (sessionStorage.getItem('leri-transicion')) {
+      document.documentElement.classList.add('viene-de-transicion');
+      sessionStorage.removeItem('leri-transicion');
+    }
+  } catch (e) {}
+  setTimeout(function () {
+    if (!window.__leriListo) document.documentElement.classList.remove('js');
+  }, 3000);
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Carpenter",
+  "name": "LERI Schreinerei AG",
+  "telephone": "+41442427266",
+  "email": "info@leri-schreinerei.ch",
+  "url": "https://zentraf-official.github.io/leri-schreinerei/kontakt.html",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kanzleistrasse 221",
+    "postalCode": "8004",
+    "addressLocality": "Zürich",
+    "addressCountry": "CH"
+  }
+}
+</script>
+</head>
+<body>
+
+<!-- ══ KINOHAFTE LADEANIMATION (nur auf der ersten Seite des Besuchs) ══ -->
+<div class="carga" id="carga" hidden>
+  <div class="carga__capa" id="cargaCapa"></div>
+  <div class="carga__caja" id="cargaCaja">
+    <img class="carga__logo" src="assets/logo-blanco.svg" alt="LERI Schreinerei AG" width="340" height="314">
+    <p class="carga__frase">Ihr Schreiner.<br>Einer für Alles.</p>
+    <div class="carga__linea"><i id="cargaBarra"></i></div>
+    <div class="carga__num"><span id="cargaNum">0</span> %</div>
+  </div>
+</div>
+
+<!-- ══ VORHANG FÜR DEN SEITENWECHSEL ══ -->
+<div class="velo" id="velo" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+<div class="progreso" id="progreso"></div>
+<div class="aviso">Entwurf · Vorschau von Zentraf</div>
+
+<!-- ══ KOPFZEILE ══ -->
+<header class="barra barra--oscura" id="barra">
+  <a class="logo" href="index.html" aria-label="LERI Schreinerei AG — Startseite">
+    <img src="assets/logo-blanco.svg" alt="LERI Schreinerei AG" width="340" height="314" class="logo__img">
+  </a>
+  <nav class="barra__menu" id="menu">
+    <a href="index.html" data-pagina="index">Start</a>
+    <a href="leistungen.html" data-pagina="leistungen">Leistungen</a>
+    <a href="projekte.html" data-pagina="projekte">Projekte</a>
+    <a href="kontakt.html" data-pagina="kontakt">Kontakt</a>
+  </nav>
+  <a class="barra__tel" href="tel:+41442427266">044 242 72 66</a>
+</header>
+
+<main>
+
+<section class="hero-mini hero-mini--corto">
+  <img src="assets/fotos/montage-1800.jpg" alt="Monteur von LERI unterwegs in Zürich" width="1800" height="1200">
+  <div class="hero-mini__velo"></div>
+  <div class="wrap hero-mini__texto">
+    <p class="kicker kicker--claro">Kontakt</p>
+    <h1 data-lineas>Sprechen wir<br>über Ihr Projekt.</h1>
+  </div>
+</section>
+
+<section class="contacto">
+  <div class="wrap contacto__rejilla">
+    <div>
+      <p class="kicker" data-anim="up">So erreichen Sie uns</p>
+      <h2 class="h2" data-lineas>Werkstatt<br>im Kreis 4</h2>
+      <p data-anim="up">Rufen Sie an, schreiben Sie eine Mail oder besuchen Sie uns einfach in der
+        Werkstatt, mitten im Zürcher Kreis 4. Wir laden Sie gerne zu einem Kaffee ein und zeigen
+        Ihnen, wo und wie wir arbeiten — und was für Ihr Vorhaben möglich ist.</p>
+      <div class="contacto__datos" data-anim="up">
+        <a href="tel:+41442427266">044 242 72 66</a>
+        <a href="mailto:info@leri-schreinerei.ch">info@leri-schreinerei.ch</a>
+        <address>LERI Schreinerei AG<br>Kanzleistrasse 221<br>8004 Zürich</address>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Kanzleistrasse+221%2C+8004+Z%C3%BCrich" target="_blank" rel="noopener">Route in Google Maps öffnen ↗</a>
+      </div>
+      <div class="contacto__nota" data-anim="up">
+        <h4>Termine</h4>
+        <p>Werkstattbesuche und Aufmasse nach Vereinbarung — am besten kurz anrufen, dann sind wir
+          garantiert da. Anfragen über das Formular beantworten wir innert eines Arbeitstages.</p>
+      </div>
+    </div>
+    <form class="form" id="form" novalidate>
+      <div class="fila">
+        <label>Name<input type="text" name="nombre" required autocomplete="name" placeholder="Vor- und Nachname"></label>
+        <label>Telefon<input type="tel" name="telefono" autocomplete="tel" placeholder="079 000 00 00"></label>
+      </div>
+      <label>E-Mail<input type="email" name="email" required autocomplete="email" placeholder="ihre@adresse.ch"></label>
+      <label>Ihr Projekt<textarea name="mensaje" rows="6" required placeholder="Zum Beispiel: Einbauschrank im Schlafzimmer, 3 m breit, Holz hell …"></textarea></label>
+      <input class="hp" type="text" name="_trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn--verde" type="submit">Anfrage senden<i aria-hidden="true">→</i></button>
+      <p class="form__nota">Ihre Angaben nutzen wir nur, um Ihre Anfrage zu beantworten — mehr dazu in
+        der <a href="#datenschutz">Datenschutzerklärung</a>.</p>
+      <p class="form__ok" id="formOk" hidden>Danke! Ihre Anfrage ist bei uns eingegangen — wir melden uns
+        innert eines Arbeitstages.</p>
+    </form>
+  </div>
+</section>
+
+<section class="legal-seccion">
+  <div class="wrap">
+    <h2 class="h2 h2--pequeno" id="impressum" data-lineas>Impressum</h2>
+    <div class="legal-texto">
+      <p><strong>LERI Schreinerei AG</strong><br>
+         Kanzleistrasse 221, 8004 Zürich, Schweiz</p>
+      <p>Telefon 044 242 72 66 · Mobile 079 782 70 80<br>
+         E-Mail info@leri-schreinerei.ch</p>
+      <p>Vertretungsberechtigt: Arbnor Begaj, Geschäftsleiter, eidg. dipl. Werkmeister HF,
+         dipl. Betriebsökonom NDS HF.</p>
+      <p>Handelsregister- und MWST-Nummer ergänzen wir gerne auf Angabe des Kunden.</p>
+    </div>
+
+    <h2 class="h2 h2--pequeno" id="datenschutz" data-lineas>Datenschutz</h2>
+    <div class="legal-texto">
+      <p><strong>Welche Daten wir erheben.</strong> Wenn Sie uns über das Formular, per E-Mail oder
+         telefonisch kontaktieren, erhalten wir Name, Kontaktdaten und Ihre Projektbeschreibung. Diese
+         Angaben brauchen wir, um Ihre Anfrage zu beantworten und eine Offerte zu erstellen.</p>
+      <p><strong>Wofür wir sie nutzen.</strong> Ausschliesslich für die Bearbeitung Ihres Auftrags oder
+         Ihrer Anfrage. Wir geben Ihre Daten nicht an Dritte weiter, ausser wenn es für die Ausführung
+         des Auftrags nötig ist und Sie damit einverstanden sind.</p>
+      <p><strong>Aufbewahrung.</strong> Wir bewahren Ihre Angaben nur so lange auf, wie es für die
+         Anfrage oder die gesetzlichen Aufbewahrungspflichten nötig ist.</p>
+      <p><strong>Cookies und Statistik.</strong> Diese Website setzt keine Cookies zu Werbezwecken und
+         verwendet keine Analyse- oder Tracking-Dienste. Die Seite wird als statische Website
+         ausgeliefert; es werden keine Nutzerprofile erstellt.</p>
+      <p><strong>Ihre Rechte.</strong> Sie können jederzeit Auskunft über die zu Ihrer Person
+         gespeicherten Daten verlangen sowie deren Berichtigung oder Löschung. Schreiben Sie dazu an
+         <a href="mailto:info@leri-schreinerei.ch">info@leri-schreinerei.ch</a>.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══ FUSSZEILE ══ -->
+<footer class="pie">
+  <div class="wrap">
+    <div class="pie__top">
+      <div>
+        <img src="assets/logo-blanco.svg" alt="LERI Schreinerei AG" width="340" height="314" class="pie__logo">
+        <p>Innenausbau, Möbel nach Mass und Reparaturservice aus der Werkstatt an der
+          Kanzleistrasse 221 im Zürcher Kreis 4.</p>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <div class="pie__lista">
+          <a href="tel:+41442427266">044 242 72 66</a>
+          <a href="mailto:info@leri-schreinerei.ch">info@leri-schreinerei.ch</a>
+          <p class="pie__dir">Kanzleistrasse 221<br>8004 Zürich</p>
+        </div>
+      </div>
+      <div>
+        <h5>Seiten</h5>
+        <div class="pie__lista">
+          <a href="index.html">Start</a>
+          <a href="leistungen.html">Leistungen</a>
+          <a href="projekte.html">Projekte</a>
+          <a href="kontakt.html">Kontakt</a>
+        </div>
+      </div>
+    </div>
+    <div class="pie__legal">
+      <details>
+        <summary>Impressum</summary>
+        <div class="legal">
+          <p>LERI Schreinerei AG · Kanzleistrasse 221 · 8004 Zürich · Schweiz<br>
+             Telefon 044 242 72 66 · Mobile 079 782 70 80 · info@leri-schreinerei.ch</p>
+          <p>Vertretungsberechtigt: Arbnor Begaj, Geschäftsleiter.<br>
+             Handelsregister- und MWST-Nummer ergänzen wir gerne auf Angabe des Kunden.</p>
+        </div>
+      </details>
+      <details id="datenschutz">
+        <summary>Datenschutz</summary>
+        <div class="legal">
+          <p>Wir erheben nur die Daten, die Sie uns über das Kontaktformular, per E-Mail oder telefonisch
+             mitteilen (Name, Kontaktdaten, Projektbeschreibung). Diese Angaben verwenden wir
+             ausschliesslich zur Bearbeitung Ihrer Anfrage und geben sie nicht an Dritte weiter.</p>
+          <p>Diese Website setzt keine Cookies zu Werbezwecken und benutzt keine Analyse- oder
+             Tracking-Dienste. Sie können jederzeit Auskunft über Ihre gespeicherten Daten oder deren
+             Löschung verlangen: info@leri-schreinerei.ch.</p>
+        </div>
+      </details>
+      <div class="pie__credito">
+        <span>© <span id="anio">2026</span> LERI Schreinerei AG</span>
+        <span>Entwurf und Umsetzung: Zentraf</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ BILDANSICHT ══ -->
+<div class="luz" id="luz" hidden role="dialog" aria-modal="true" aria-label="Bildansicht">
+  <button id="luzCerrar" aria-label="Schliessen">✕</button>
+  <img id="luzImg" src="" alt="">
+  <p id="luzCap"></p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
