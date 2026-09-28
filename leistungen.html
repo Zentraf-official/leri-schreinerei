@@ -14,8 +14,9 @@
 <meta property="og:image:height" content="630">
 <meta name="theme-color" content="#007B35">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
 <link rel="icon" href="assets/favicon.png" sizes="512x512">
-<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="assets/fuentes/inter-800.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fuentes/inter-400.woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
@@ -69,7 +70,9 @@
 <div class="velo" id="velo" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 
 <div class="progreso" id="progreso"></div>
-<div class="aviso">Entwurf · Vorschau von Zentraf</div>
+<!-- Aquí iba el cartel FIJO «Entwurf · Vorschau von Zentraf», que flotaba en la esquina
+     mientras se hacía scroll. El socio pidió quitarlo: ahora es la última línea del pie
+     (ver PIE → .pie__zentraf), con el enlace a la web de la agencia. -->
 
 <!-- ══ KOPFZEILE ══ -->
 <header class="barra barra--oscura" id="barra">
@@ -262,6 +265,15 @@
         <span>© <span id="anio">2026</span> LERI Schreinerei AG</span>
         <span>Entwurf und Umsetzung: Zentraf</span>
       </div>
+      <!-- ══ LO ÚLTIMO DE ABAJO: el mensaje de Zentraf, en verde y con enlace ══
+           Antes iba flotando en la esquina mientras se hacía scroll. El socio lo pidió
+           así: «que no se mueva mientras scroll, sino que esté abajo en el Footer, en lo
+           último de abajo, con un enlace que cuando le toquen se vaya a la web de
+           nosotros, la de la agencia». El nombre «Zentraf» ES el enlace. -->
+      <p class="pie__zentraf">
+        Entwurf · Vorschau von <a href="https://zentraf.ch" target="_blank" rel="noopener">Zentraf</a>
+        <span>— wir gestalten die neue Website der LERI Schreinerei AG. Diese Seite ist noch nicht veröffentlicht.</span>
+      </p>
     </div>
   </div>
 </footer>
